@@ -1,0 +1,6 @@
+service: default
+runtime: nodejs10
+env: standard
+# define env variable here!
+# env_variables:
+#   - YOU_PASSWORD: 1234
