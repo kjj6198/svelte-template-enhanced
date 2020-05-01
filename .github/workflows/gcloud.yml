@@ -1,0 +1,35 @@
+name: Build and Deploy to App Engine
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  RUN_REGION: asia-northeast2
+  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+
+jobs:
+  setup-build-and-deploy:
+    name: Setup gcloud and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          project_id: ${{ secrets.PROJECT_ID }}
+          service_account_email: ${{ secrets.SA_EMAIL }}
+          server_account_key: ${{ secrets.SA_KEY }}
+          export_default_credentials: true
+      - name: Deploy
+        run: |-
+          echo $SERVICE_ACCOUNT > /tmp/key.json && \
+          gcloud auth activate-service-account --key-file /tmp/key.json && \
+          gcloud app deploy --project "$PROJECT_ID"

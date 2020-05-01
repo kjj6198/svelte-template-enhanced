@@ -72,3 +72,4 @@ As an alternative, use the [Now desktop client](https://zeit.co/download) and si
 First you'll have to download [gcloud SDK](https://cloud.google.com/sdk/install)
 
 - `gcloud app deploy`
+- Use Github Actions
